@@ -40,3 +40,4 @@ describe('Work with alerts', () => {
         cy.get('#resultado > span').invoke('text').should('gte', '15000');
     });
 });
+
