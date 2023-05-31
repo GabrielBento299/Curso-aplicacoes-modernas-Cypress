@@ -21,3 +21,4 @@ Cypress.Commands.add('resetApp', () => {
     cy.get('[data-test=menu-settings]').click();
     cy.get('[href="/reset"]').click();
 });
+
