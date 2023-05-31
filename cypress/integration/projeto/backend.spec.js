@@ -2,14 +2,14 @@
 
 import '../../support/apiCommands';
 describe('Should test at a functional level', () => {
-    let token;
+    // let token;
     before(() => {
         cy.getToken('gabriel123teste.com', 'teste123')
-            .then(tkn => token = tkn);
+            // .then(tkn => token = tkn);
     });
 
     beforeEach(() => {
-        cy.resetApiRest(token);
+        cy.resetApiRest();
     });
 
     it('Should create an account', () => {
@@ -17,7 +17,7 @@ describe('Should test at a functional level', () => {
             method: 'POST',
             url: '/contas',
             body: { nome: 'Conta criada via api' },
-            headers: { Authorization: `JWT ${token}` }
+            // headers: { Authorization: `JWT ${token}` }
         }).as('response');
 
         cy.get('@response').then(response => {
@@ -28,12 +28,12 @@ describe('Should test at a functional level', () => {
     });
 
     it('Should update an account', () => {
-        cy.getCountByName('Conta para alterar', token).then(countId => {
+        cy.getCountByName('Conta para alterar').then(countId => {
             cy.request({
                 method: 'PUT',
                 url: `/contas/${countId}`,
                 body: { nome: 'Conta editada via api' },
-                headers: { Authorization: `JWT ${token}`}
+                // headers: { Authorization: `JWT ${token}`}
             }).as('response');
     
             cy.get('@response').then(response => {
@@ -48,7 +48,7 @@ describe('Should test at a functional level', () => {
             method: 'POST',
             url: '/contas',
             body: { nome: 'Conta mesmo nome' },
-            headers: { Authorization: `JWT ${token}` },
+            // headers: { Authorization: `JWT ${token}`},
             failOnStatusCode: false
         }).as('response');
 
@@ -59,7 +59,7 @@ describe('Should test at a functional level', () => {
     });
 
     it('Should create a transction', () => {
-        cy.getCountByName('Conta para movimentacoes', token).then(countId => {
+        cy.getCountByName('Conta para movimentacoes').then(countId => {
                 cy.request({
                     method: 'POST',
                     url: '/transacoes',
@@ -73,7 +73,7 @@ describe('Should test at a functional level', () => {
                         tipo: 'REC',
                         valor: '750'
                     },
-                    headers: { Authorization: `JWT ${token}`},
+                    // headers: { Authorization: `JWT ${token}`},
                 }).as('response');
 
                 cy.get('@response').its('status').should('be.equal', 201);
@@ -85,7 +85,7 @@ describe('Should test at a functional level', () => {
         cy.request({
             method: 'GET',
             url: '/saldo',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
         }).then(response => {
                 let souldCount = null;
                 response.body.forEach(count => {
@@ -97,7 +97,7 @@ describe('Should test at a functional level', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
             qs: { descricao: 'Movimentacao 1, calculo saldo' },
         }).then(response => {
             cy.request({
@@ -112,14 +112,14 @@ describe('Should test at a functional level', () => {
                     status: true,
                     valor: response.body[0].valor
                  },
-                headers: { Authorization: `JWT ${token}`},
+                // headers: { Authorization: `JWT ${token}`},
             }).its('status').should('be.equal', 200);
         });
 
         cy.request({
             method: 'GET',
             url: '/saldo',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
         }).then(response => {
                 let souldCount = null;
                 response.body.forEach(count => {
@@ -129,19 +129,19 @@ describe('Should test at a functional level', () => {
         });
     });
 
-    it.only('Should remove a transaction', () => {
+    it('Should remove a transaction', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
             qs: { descricao: 'Movimentacao para exclusao' },
         }).then(response => {
             cy.request({
                 method: 'DELETE',
                 url: `/transacoes/${response.body[0].id}`,
-                headers: { Authorization: `JWT ${token}`},
+                // headers: { Authorization: `JWT ${token}`},
             }).its('status').should('be.equal', 204);
-        })
+        });
     });
 });
 
