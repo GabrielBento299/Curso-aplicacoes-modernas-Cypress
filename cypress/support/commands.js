@@ -5,16 +5,14 @@ Cypress.Commands.add('clickAlert', (locator, message) => {
     });
 });
 
-Cypress.Commands.add('login', () => {
-    cy.visit('https://barrigareact.wcaquino.me');
+Cypress.Commands.add('login', (email, password, name) => {
+    cy.visit('https://barrigareact.wcaquino.me/');
 
-    cy.fixture('login').then(user => {
-        cy.get('[data-test=email]').type(user.email);
-        cy.get('[data-test=passwd]').type(user.password, { log: false });
+        cy.get('[data-test=email]').type(email);
+        cy.get('[data-test=passwd]').type(password, { log: false });
 
         cy.get('button[type="submit"].btn').click();
-        cy.get('.toast-message').should('contain',`Bem vindo, ${user.name}!`);
-    });
+        cy.get('.toast-message').should('contain',`Bem vindo, ${name}!`);
 });
 
 Cypress.Commands.add('resetApp', () => {

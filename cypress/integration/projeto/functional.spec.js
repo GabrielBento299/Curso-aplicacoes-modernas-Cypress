@@ -3,7 +3,7 @@
 import '../../support/contasCommands';
 describe('Should test at a functional level', () => {
     before(() => {
-        cy.login();
+        cy.login('gabriel123teste.com', 'teste123', 'Gabriel');
     });
 
     beforeEach(() => {
